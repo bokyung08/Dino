@@ -18,40 +18,75 @@ void GotoXY(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
-int dinosaur(int y) {
+int dinosaur(int y,int under) {
     static bool leg = true;
-    GotoXY(1, y);
-    printf("        ****** ");
-    GotoXY(1, y + 1);
-    printf("       *****♥**");
-    GotoXY(1, y + 2);
-    printf("       ********");
-    GotoXY(1, y + 3);
-    printf("       ****    ");
-    GotoXY(1, y + 4);
-    printf("       ******9 ");
-    GotoXY(1, y + 5);
-    printf("  *   ******");
-    GotoXY(1, y + 6);
-    printf("  **  *******");
-    GotoXY(1, y + 7);
-    printf("   ***********");
-    GotoXY(1, y + 8);
-    printf("     ********");
-    if (leg) {
-        GotoXY(1, y + 9);
+    if (under) {
+        GotoXY(1, y + 2);
+        printf("        ****** ");
+        GotoXY(1, y + 3);
+        printf("       *****♥**");
+        GotoXY(1, y + 4);
+        printf("       ******9 ");
+        GotoXY(1, y + 5);
+        printf("  *   ******");
+        GotoXY(1, y + 6);
+        printf("  **  *******");
+        GotoXY(1, y + 7);
+        printf("   ***********");
+        GotoXY(1, y + 8);
+        printf("     ********");
+        if (leg) {
+            GotoXY(1, y + 9);
 
-        printf("     *  ***   ");
-        GotoXY(1, y + 10);
-        printf("     ** ");
-        leg = false;
+            printf("     *  ***   ");
+            GotoXY(1, y + 10);
+            printf("     ** ");
+            leg = false;
+        }
+        else {
+            GotoXY(1, y + 9);
+            printf("     ***  *     ");
+            GotoXY(1, y + 10);
+            printf("          **    ");
+            leg = true;
+        }
+
     }
     else {
-        GotoXY(1, y + 9);
-        printf("     ***  *     ");
-        GotoXY(1, y + 10);
-        printf("          **    ");
-        leg = true;
+
+        GotoXY(1, y);
+        printf("        ****** ");
+        GotoXY(1, y + 1);
+        printf("       *****♥**");
+        GotoXY(1, y + 2);
+        printf("       ********");
+        GotoXY(1, y + 3);
+        printf("       ****    ");
+        GotoXY(1, y + 4);
+        printf("       ******9 ");
+        GotoXY(1, y + 5);
+        printf("  *   ******");
+        GotoXY(1, y + 6);
+        printf("  **  *******");
+        GotoXY(1, y + 7);
+        printf("   ***********");
+        GotoXY(1, y + 8);
+        printf("     ********");
+        if (leg) {
+            GotoXY(1, y + 9);
+
+            printf("     *  ***   ");
+            GotoXY(1, y + 10);
+            printf("     ** ");
+            leg = false;
+        }
+        else {
+            GotoXY(1, y + 9);
+            printf("     ***  *     ");
+            GotoXY(1, y + 10);
+            printf("          **    ");
+            leg = true;
+        }
     }
 }
 
@@ -68,7 +103,8 @@ int dinosaur(int y) {
         int jumpHeight = 4;
         int isJumping = 0;
         int y = HEIGHT - 13;
-
+        int under = 0;
+        int undertime = 0;
 
         int map[24][80] = {
          1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1,
@@ -119,7 +155,11 @@ int dinosaur(int y) {
 
 
                 }
-                else continue;
+                else if (ch == 80) {
+                    //under = 1;
+                    undertime = 5;
+                }
+                else under=0;
             }
 
             if (isJumping) {
@@ -140,6 +180,13 @@ int dinosaur(int y) {
                     isJumping = 0;      // 점프 상태 해제
                     jumpHeight = 4;     // 점프 높이 초기화
                 }
+            }
+            if (undertime > 0) {
+                under = 1;
+                undertime--;
+            }
+            else {
+                under = 0;
             }
             system("cls");
 
@@ -236,7 +283,7 @@ int dinosaur(int y) {
 
             GotoXY(65, 1);
             printf("Score: %d", score);
-            dinosaur(y);
+            dinosaur(y,under);
             Sleep(50);
 
         }
