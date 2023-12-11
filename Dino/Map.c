@@ -96,7 +96,7 @@ int dinosaur(int y,int under) {
 
 
 
-    int speed = spd;
+    int speed =50;
     int main(void) {
         time_t lastObstacleTime = time(NULL);
         int obstacleInterval = 4;
@@ -138,7 +138,11 @@ int dinosaur(int y,int under) {
         start = curr;
 
         while (1) {
-            //GotoXY(0, 0);
+            GotoXY(0, 0);
+            if (difftime(time(NULL), lastObstacleTime) >= 0) {
+                curr = time(NULL);
+                score++;
+            }
 
 
             if (_kbhit()) {
@@ -188,7 +192,7 @@ int dinosaur(int y,int under) {
             else {
                 under = 0;
             }
-            system("cls");
+            //system("cls");
 
 
 
@@ -215,8 +219,13 @@ int dinosaur(int y,int under) {
             if (difftime(time(NULL), lastObstacleTime) >= obstacleInterval) {
                 void obstacle(); {
                     int rad;
-                    rad = rand() % 5;
 
+                    if (score > 200) {
+                        rad = rand() % 5;
+                    }
+                    else {
+                        rad = rand() % 3;
+                    }
                     if (rad == 0) {// 4Ä­ ¼±ÀÎÀå
                         map[21][78] = 2;
                         map[20][77] = 2;
@@ -272,19 +281,22 @@ int dinosaur(int y,int under) {
                 printf("\n");
             }
 
-            if (difftime(time(NULL), lastObstacleTime) >= 0) {
-                curr = time(NULL);
-                score++;
-            }
+        
 
 
             // GotoXY(0, 0);  
+            if (score  >= 0 && score != 0) {
+                obstacleInterval = max(1, 4 - (score / 1000)); 
+            }
 
 
             GotoXY(65, 1);
             printf("Score: %d", score);
             dinosaur(y,under);
-            Sleep(50);
+            if (score % 900 == 0 && score != 0) {
+                speed = max(10, speed - 10);
+            }
+            Sleep(speed);
 
         }
     
