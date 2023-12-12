@@ -89,6 +89,14 @@ int dinosaur(int y,int under) {
         }
     }
 }
+void Gameover(int y, int map[HEIGHT][WIDTH], bool* over) {
+    for (int i = 0;i < 11;i++) {
+        if (map[y + i][2] == 2 || map[y + i][2] == 3) {
+            *over = 1;
+            return 0;
+        }
+    }
+}
 
 
 
@@ -98,10 +106,10 @@ int dinosaur(int y,int under) {
 
     int speed =50;
     int main(void) {
-        time_t lastObstacleTime = time(NULL);
-        int obstacleInterval = 4;
-        int jumpHeight = 4;
-        int isJumping = 0;
+        time_t Time = time(NULL);
+        int ob = 4;
+        int Height = 4;
+        int Jumping = 0;
         int y = HEIGHT - 13;
         int under = 0;
         int undertime = 0;
@@ -136,10 +144,12 @@ int dinosaur(int y,int under) {
         time_t start, curr;
         curr = time(NULL);
         start = curr;
+        bool over = false;
 
-        while (1) {
+        while (!over) {
+            system("cls");
             GotoXY(0, 0);
-            if (difftime(time(NULL), lastObstacleTime) >= 0) {
+            if (difftime(time(NULL), Time) >= 0) {
                 curr = time(NULL);
                 score++;
             }
@@ -147,14 +157,14 @@ int dinosaur(int y,int under) {
 
             if (_kbhit()) {
                 char ch = _getch();
-                if (ch == ' ' && !isJumping) {
-                    isJumping = 1;
-                    jumpHeight = 4;
+                if (ch == ' ' && !Jumping) {
+                    Jumping = 1;
+                    Height = 4;
                 }
                 else if (ch == 72) {
-                    if (!isJumping) {
-                        isJumping = 1;
-                        jumpHeight = 3;
+                    if (!Jumping) {
+                        Jumping = 1;
+                        Height = 3;
                     }
 
 
@@ -166,9 +176,9 @@ int dinosaur(int y,int under) {
                 else under=0;
             }
 
-            if (isJumping) {
-                if (jumpHeight > 0) {
-                    y -= jumpHeight; // 상승
+            if (Jumping) {
+                if (Height > 0) {
+                    y -= Height; // 상승
                 }
                 else {
                     if (y < HEIGHT - 13) {
@@ -177,12 +187,12 @@ int dinosaur(int y,int under) {
                 }
 
 
-                jumpHeight--; // 상승 중에는 감소
+                Height--; // 상승 중에는 감소
 
                 if (y >= HEIGHT - 13) { // 공룡이 지면에 도달하면
                     y = HEIGHT - 13;    // 지면 아래로 내려가지 않도록 설정
-                    isJumping = 0;      // 점프 상태 해제
-                    jumpHeight = 4;     // 점프 높이 초기화
+                    Jumping = 0;      // 점프 상태 해제
+                    Height = 4;     // 점프 높이 초기화
                 }
             }
             if (undertime > 0) {
@@ -216,7 +226,7 @@ int dinosaur(int y,int under) {
 
 
 
-            if (difftime(time(NULL), lastObstacleTime) >= obstacleInterval) {
+            if (difftime(time(NULL), Time) >= ob) {
                 void obstacle(); {
                     int rad;
 
@@ -265,7 +275,7 @@ int dinosaur(int y,int under) {
                         map[11][76] = 3;
                     }
                 }
-                lastObstacleTime = time(NULL);
+                Time = time(NULL);
             }
 
             for (int i = 0; i < HEIGHT; i++) {
@@ -286,7 +296,7 @@ int dinosaur(int y,int under) {
 
             // GotoXY(0, 0);  
             if (score  >= 0 && score != 0) {
-                obstacleInterval = max(1, 4 - (score / 1000)); 
+                ob = max(1, 4 - (score / 1000)); 
             }
 
 
@@ -297,6 +307,11 @@ int dinosaur(int y,int under) {
                 speed = max(10, speed - 10);
             }
             Sleep(speed);
+
+        }
+        if (Gameover) {
+            GotoXY(WIDTH / 2 - 8, HEIGHT / 2);
+            printf("GAMEOVER\n\t\t\t\tSCORE:%d", score);
 
         }
     
