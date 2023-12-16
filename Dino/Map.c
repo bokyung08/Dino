@@ -86,12 +86,27 @@ void dinosaur(int y, int under) {
 }
 
 
-bool End(int dinosaurX, int dinosaurY, int width, int height, int map[HEIGHT][WIDTH]) {
-    for (int i = dinosaurY; i < dinosaurY + height; i++) {
-        for (int j = dinosaurX; j < dinosaurX + width; j++) {
-            if (map[i][j] == 2 || map[i][j] == 3) {
-                // 장애물과 충돌 발생
-                return true;
+bool End(int dinoX, int dinoY, int width, int height, int map[HEIGHT][WIDTH],bool under) {
+  
+    if (under) {
+        for (int i = dinoY; i < dinoY + height; i++) {
+            for (int j = dinoX; j < dinoX + width; j++) {
+                if (map[i + 1][j] == 2 || map[i + 1][j] == 3) {
+                    // 장애물과 충돌 발생
+                    return true;
+                }
+            }
+
+        }
+    }
+    else {
+
+        for (int i = dinoY; i < dinoY + height; i++) {
+            for (int j = dinoX; j < dinoX + width; j++) {
+                if (map[i][j] == 2 || map[i][j] == 3) {
+                    // 장애물과 충돌 발생
+                    return true;
+                }
             }
         }
     }
@@ -154,12 +169,12 @@ int end_map[24][80] = {
 void obstacle(){
     int rad;
 
-    if (score > 200) {
+    //if (score > 200) {
         rad = rand() % 5;
-    }
-    else {
-        rad = rand() % 3;
-    }
+    //}
+    //else {
+        //rad = rand() % 3;
+    //}
     if (rad == 0) {// 4칸 선인장
         map[21][78] = 2;
         map[20][77] = 2;
@@ -232,7 +247,7 @@ void obstacle(){
                 curr = time(NULL);
                 score++;
             }
-            bool end = End(2, y,10, y+1, map);
+            bool end = End(2, y+0.5,10, y+1, map,under);
             if (end) {
                 end_map;
             }
@@ -330,6 +345,7 @@ void obstacle(){
                     if (end) {
                         switch (end_map[i][j]) {
                         case 6:printf("game over\n\t\t\t\t    score: %d",score); 
+                            
                             return 0;
                         }
                     }
@@ -344,8 +360,6 @@ void obstacle(){
             if (score  >= 0 && score != 0) {
                 ob = max(1, 4 - (score / 1000)); 
             }
-
-
             GotoXY(65, 1);
             printf("Score: %d", score);
             dinosaur(y,under);
@@ -356,6 +370,7 @@ void obstacle(){
             Sleep(speed);
 
         }
+        
       
     
     }
