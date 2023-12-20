@@ -91,7 +91,7 @@ bool End(int dinoX, int dinoY, int width, int height, int map[HEIGHT][WIDTH],boo
     if (under) {
         for (int i = dinoY; i < dinoY + height; i++) {
             for (int j = dinoX; j < dinoX + width; j++) {
-                if (map[i + 1][j] == 2 || map[i + 1][j] == 3) {
+                if (map[i+1][j] == 2 || map[i+1][j] == 3) {
                     // 장애물과 충돌 발생
                     return true;
                 }
@@ -103,7 +103,7 @@ bool End(int dinoX, int dinoY, int width, int height, int map[HEIGHT][WIDTH],boo
 
         for (int i = dinoY; i < dinoY + height; i++) {
             for (int j = dinoX; j < dinoX + width; j++) {
-                if (map[i][j] == 2 || map[i][j] == 3) {
+                if (map[i][j] == 2 || map[i-1][j] == 3) {
                     // 장애물과 충돌 발생
                     return true;
                 }
@@ -169,12 +169,12 @@ int end_map[24][80] = {
 void obstacle(){
     int rad;
 
-    //if (score > 200) {
-        rad = rand() % 5;
-    //}
-    //else {
-        //rad = rand() % 3;
-    //}
+    if (score > 200) {
+        rad = rand() % 8;
+    }
+    else {
+        rad = rand() % 6;
+    }
     if (rad == 0) {// 4칸 선인장
         map[21][78] = 2;
         map[20][77] = 2;
@@ -194,19 +194,44 @@ void obstacle(){
     else if (rad == 2) {//3칸
         map[21][77] = 2;
         map[20][77] = 2;
-        map[20][76] = 2;
+        map[18][76] = 2;
         map[19][76] = 2;
+        map[19][78] = 2;
+        map[18][78] = 2;
+    }
+    else if (rad == 3) {//3칸
+        map[21][77] = 2;
+        map[20][77] = 2;
         map[19][78] = 2;
         map[20][78] = 2;
     }
-    else if (rad == 3) {     //높은새
+    else if (rad == 4) {//4칸
+        map[21][77] = 2;
+        map[20][77] = 2;
+        map[19][77] = 2;
+        map[19][78] = 2;
+        map[18][78] = 2;
+        map[17][78] = 2;
+    }
+    else if (rad == 5) {// 4칸 선인장
+        map[21][78] = 2;
+        map[20][77] = 2;
+        map[20][78] = 2;
+        map[19][78] = 2;
+        map[20][76] = 2;
+        map[19][76] = 2;
+        map[18][76] = 2;
+        map[18][78] = 2;
+        map[17][76] = 2;
+    }
+    else if (rad == 5) {     //높은새
         map[8][78] = 3;
         map[7][78] = 3;
         map[6][78] = 3;
         map[7][77] = 3;
         map[7][76] = 3;
     }
-    else if (rad == 4) {     //높은새
+    else if (rad == 6) {     //높은새
         map[12][78] = 3;
         map[11][78] = 3;
         map[10][78] = 3;
@@ -243,11 +268,21 @@ void obstacle(){
             //system("cls");
             GotoXY(0, 0);
 
+
+
+
+
+
+
+
+
+
+
             if (difftime(time(NULL), Time) >= 0) {
                 curr = time(NULL);
                 score++;
             }
-            bool end = End(2, y+0.5,10, y+1, map,under);
+            bool end = End(2, y+1,10, y+1, map,under);
             if (end) {
                 end_map;
             }
@@ -271,8 +306,8 @@ void obstacle(){
 
                 }
                 else if (ch == 80) {
-                    //under = 1;
-                    undertime = 5;
+                    under = 1;
+                    undertime = 6;
                 }
                 else under=0;
             }
@@ -345,7 +380,7 @@ void obstacle(){
                     if (end) {
                         switch (end_map[i][j]) {
                         case 6:printf("game over\n\t\t\t\t    score: %d",score); 
-                            
+                            GotoXY(map[i+1], map[j+1]);
                             return 0;
                         }
                     }
