@@ -5,11 +5,11 @@
 #include <time.h>
 #include <stdbool.h>
 
-#define HEIGHT 24
-#define WIDTH 80
-#define spd 50
-#define MAX_X 80
-#define MAX_Y 24
+#define HEIGHT 24//높이크기
+#define WIDTH 80//너비크기
+#define spd 50//초기 스피드
+#define MAX_X 80//x의 최대 너비
+#define MAX_Y 24//y의 최대 높이
 
 int score = 0;
 void GotoXY(int x, int y) {
@@ -19,9 +19,9 @@ void GotoXY(int x, int y) {
     SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), Pos);
 }
 
-void dinosaur(int y, int under) {
-    static bool leg = true;
-    if (under) {
+void dinosaur(int y, int under) {//int y->y 좌표위치 int under->아래키 누르는동안
+    static bool leg = true;//다리 움직이게 하기위한 코드
+    if (under) {//아래로 숙였을 때 공룡모습
         GotoXY(1, y + 1);
         printf("     **** ");
         GotoXY(1, y + 2);
@@ -51,7 +51,7 @@ void dinosaur(int y, int under) {
             leg = true;
         }
     }
-    else {
+    else {//평소 공룡 모습
         GotoXY(1, y);
         printf("      **** ");
         GotoXY(1, y + 1);
@@ -88,7 +88,7 @@ void dinosaur(int y, int under) {
 
 bool End(int dinoX, int dinoY, int width, int height, int map[HEIGHT][WIDTH],bool under) {
   
-    if (under) {
+    if (under) { //숙였을 때 충돌처리
         for (int i = dinoY; i < dinoY + height; i++) {
             for (int j = dinoX; j < dinoX + width; j++) {
                 if (map[i+1][j] == 2 || map[i+1][j] == 3) {
@@ -99,7 +99,7 @@ bool End(int dinoX, int dinoY, int width, int height, int map[HEIGHT][WIDTH],boo
 
         }
     }
-    else {
+    else { //숙이지 않은 상태일 때 충돌처리
 
         for (int i = dinoY; i < dinoY + height; i++) {
             for (int j = dinoX; j < dinoX + width; j++) {
@@ -114,7 +114,7 @@ bool End(int dinoX, int dinoY, int width, int height, int map[HEIGHT][WIDTH],boo
 }
 
 
-int map[24][80] = {
+int map[24][80] = { //일반 맵
         1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1,
         1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1,
         1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1,
@@ -139,7 +139,7 @@ int map[24][80] = {
         1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1,
         1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1,
 };
-int end_map[24][80] = {
+int end_map[24][80] = { //엔딩 맵
         1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1, 1,1,1,1,1,
         1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1,
         1,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,0, 0,0,0,0,1,
@@ -166,14 +166,14 @@ int end_map[24][80] = {
 };
 
 
-void obstacle(){
+void obstacle(){// 장애물 로직
     int rad;
 
     if (score > 200) {
         rad = rand() % 8;
-    }
+    }// 200점이 넘으면 전체 장애물 중 하나 발생
     else {
-        rad = rand() % 6;
+        rad = rand() % 6; //200점 이하면 새는 발생하지 않음
     }
     if (rad == 0) {// 4칸 선인장
         map[21][78] = 2;
@@ -184,7 +184,7 @@ void obstacle(){
         map[19][76] = 2;
         map[18][76] = 2;
     }
-    else if (rad == 1) {//4칸
+    else if (rad == 1) {//3칸 선인장
         map[21][77] = 2;
         map[20][77] = 2;
         map[19][77] = 2;
@@ -205,7 +205,7 @@ void obstacle(){
         map[19][78] = 2;
         map[20][78] = 2;
     }
-    else if (rad == 4) {//4칸
+    else if (rad == 4) {//5칸 선인장
         map[21][77] = 2;
         map[20][77] = 2;
         map[19][77] = 2;
@@ -213,7 +213,7 @@ void obstacle(){
         map[18][78] = 2;
         map[17][78] = 2;
     }
-    else if (rad == 5) {// 4칸 선인장
+    else if (rad == 5) {// 5칸 선인장
         map[21][78] = 2;
         map[20][77] = 2;
         map[20][78] = 2;
@@ -224,14 +224,14 @@ void obstacle(){
         map[18][78] = 2;
         map[17][76] = 2;
     }
-    else if (rad == 5) {     //높은새
+    else if (rad == 6) {     //높은새
         map[8][78] = 3;
         map[7][78] = 3;
         map[6][78] = 3;
         map[7][77] = 3;
         map[7][76] = 3;
     }
-    else if (rad == 6) {     //높은새
+    else if (rad == 7) {     //낮은새
         map[12][78] = 3;
         map[11][78] = 3;
         map[10][78] = 3;
@@ -241,14 +241,11 @@ void obstacle(){
 }
 
 
-
-
-
   
     int main(void) {
-        int speed = 50;
+        int speed = 50;//speed
         time_t Time = time(NULL);
-        int ob = 4;
+        int ob = 4;// 장애물 간격
         int Height = 4;
         int Jumping = 0;
         int y = HEIGHT - 12;
@@ -266,32 +263,25 @@ void obstacle(){
 
         while (1) {
             //system("cls");
-            GotoXY(0, 0);
-
-
-
-
-
-
-
+            GotoXY(0, 0);// 화면 초기화 
 
 
 
 
             if (difftime(time(NULL), Time) >= 0) {
                 curr = time(NULL);
-                score++;
+                score++;//score 증가
             }
             bool end = End(2, y+1,10, y+1, map,under);
             if (end) {
                 end_map;
-            }
+            }// 엔딩 맵 나오게 하기
      
             
 
 
 
-            if (_kbhit()) {
+            if (_kbhit()) {//키보드 입력받아서 점프와 숙이기 구현하기
                 char ch = _getch();
                 if (ch == ' ' && !Jumping) {
                     Jumping = 1;
@@ -338,7 +328,6 @@ void obstacle(){
             else {
                 under = 0;
             }
-            //system("cls");
 
 
 
@@ -353,11 +342,9 @@ void obstacle(){
                         else {
                             map[i][j] = 0;
                         }
-                        //map[i][j] = 0;
                     }
                 }
-                //map[i][WIDTH - 2] = 0;
-            }
+            }// 맵 이동 로직
 
 
 
@@ -365,7 +352,7 @@ void obstacle(){
             if (difftime(time(NULL), Time) >= ob) {
                 obstacle();
                 Time = time(NULL);
-            }
+            }//장애물 발생
       
 
             for (int i = 0; i < HEIGHT; i++) {
@@ -376,7 +363,7 @@ void obstacle(){
                     case 2: printf("^"); break;
                     case 3: printf("<"); break;
                     case 4: printf("*"); break;
-                    }
+                    }//맵에서 case 나눠서 숫자를 맵의 구성요소로 바꿔주기
                     if (end) {
                         switch (end_map[i][j]) {
                         case 6:printf("game over\n\t\t\t\t    score: %d",score); 
@@ -391,19 +378,19 @@ void obstacle(){
         
 
 
-            // GotoXY(0, 0);  
+         
             if (score  >= 0 && score != 0) {
                 ob = max(1, 4 - (score / 1000)); 
-            }
-            GotoXY(65, 1);
+            }// 점수가 증가할 수록 장애물 발생간격 줄이기
+            GotoXY(65, 1);//score 출력 위치
             printf("Score: %d", score);
             dinosaur(y,under);
             if (score % 900 == 0 && score != 0) {
                 speed = max(10, speed - 10);
-            }
+            }// 속도를 점점 올리기
             GotoXY(WIDTH, HEIGHT);
             Sleep(speed);
-
+            //sleep을 이용해 속도 조정하기
         }
         
       
